@@ -1,0 +1,44 @@
+mobs:
+  fire_golem:
+    base-entity: IRON_GOLEM
+    display-name: "&c炎のゴーレム"
+    stats:
+      health: 60.0
+      damage: 8.0
+      armor: 4.0
+      movement-speed: 0.25
+    drops:
+      - item: BLAZE_ROD
+        chance: 0.5
+        amount-min: 1
+        amount-max: 3
+      - item: NETHER_STAR
+        chance: 0.02
+        amount-min: 1
+        amount-max: 1
+    ai:
+      - type: melee_attack
+        range: 2.0
+        cooldown-ticks: 20
+
+  frost_skeleton:
+    base-entity: SKELETON
+    display-name: "&b氷の弓兵"
+    stats:
+      health: 30.0
+      damage: 5.0
+      armor: 2.0
+      movement-speed: 0.23
+    drops:
+      - item: BONE
+        chance: 1.0
+        amount-min: 1
+        amount-max: 2
+      - item: ARROW
+        chance: 0.8
+        amount-min: 2
+        amount-max: 6
+    ai:
+      - type: melee_attack
+        range: 1.5
+        cooldown-ticks: 15
