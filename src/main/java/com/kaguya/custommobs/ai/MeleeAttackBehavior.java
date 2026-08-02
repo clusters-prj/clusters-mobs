@@ -2,6 +2,7 @@ package com.kaguya.custommobs.ai;
 
 import com.kaguya.custommobs.model.AiBehaviorConfig;
 import com.kaguya.custommobs.model.CustomMobInstance;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -28,9 +29,13 @@ public class MeleeAttackBehavior implements AiBehavior {
                 mob.markUsed(COOLDOWN_KEY, nowTick);
             }
         } else {
-            // 単純に向かって歩かせる(NavigationはPathfinderMob前提)
+            // AI無効化中はsetVelocityが移動に反映されないため、直接座標を動かす
             Vector dir = target.getLocation().toVector().subtract(self.getLocation().toVector()).normalize();
-            self.setVelocity(dir.multiply(self.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MOVEMENT_SPEED).getValue() * 4));
+            double speed = self.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MOVEMENT_SPEED).getValue() * 5.0;
+
+            Location next = self.getLocation().add(dir.getX() * speed, 0, dir.getZ() * speed);
+            next.setYaw((float) Math.toDegrees(Math.atan2(-dir.getX(), dir.getZ())));
+            self.teleport(next);
         }
     }
 
