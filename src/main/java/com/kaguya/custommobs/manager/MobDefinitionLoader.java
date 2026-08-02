@@ -3,6 +3,7 @@ package com.kaguya.custommobs.manager;
 import com.kaguya.custommobs.model.AiBehaviorConfig;
 import com.kaguya.custommobs.model.DropEntry;
 import com.kaguya.custommobs.model.MobDefinition;
+import com.kaguya.custommobs.model.ModelConfig;
 import com.kaguya.custommobs.model.StatBlock;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -48,7 +49,9 @@ public class MobDefinitionLoader {
 
                 List<DropEntry> drops = new ArrayList<>();
                 if (yaml.isList(base + "drops")) {
-                    for (Map<?, ?> raw : yaml.getMapList(base + "drops")) {
+                    for (Map<?, ?> rawUnbounded : yaml.getMapList(base + "drops")) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> raw = (Map<String, Object>) rawUnbounded;
                         Material mat = Material.valueOf((String) raw.get("item"));
                         double chance = ((Number) raw.getOrDefault("chance", 1.0)).doubleValue();
                         int min = ((Number) raw.getOrDefault("amount-min", 1)).intValue();
@@ -71,7 +74,16 @@ public class MobDefinitionLoader {
                     }
                 }
 
-                result.put(id, new MobDefinition(id, baseEntity, displayName, stats, drops, aiList));
+                ModelConfig model = null;
+                if (yaml.isConfigurationSection(base + "model")) {
+                    Material modelMat = Material.valueOf(yaml.getString(base + "model.item", "PLAYER_HEAD"));
+                    int customModelData = yaml.getInt(base + "model.custom-model-data", 0);
+                    float scale = (float) yaml.getDouble(base + "model.scale", 1.0);
+                    double yOffset = yaml.getDouble(base + "model.y-offset", 0.0);
+                    model = new ModelConfig(modelMat, customModelData, scale, yOffset);
+                }
+
+                result.put(id, new MobDefinition(id, baseEntity, displayName, stats, drops, aiList, model));
                 logger.info("Mob定義ロード完了: " + id);
             } catch (Exception ex) {
                 logger.warning("Mob定義の読み込みに失敗しました (" + id + "): " + ex.getMessage());

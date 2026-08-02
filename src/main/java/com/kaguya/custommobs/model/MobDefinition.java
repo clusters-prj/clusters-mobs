@@ -11,15 +11,18 @@ public class MobDefinition {
     private final StatBlock stats;
     private final List<DropEntry> drops;
     private final List<AiBehaviorConfig> aiBehaviors;
+    private final ModelConfig model;
 
     public MobDefinition(String id, EntityType baseEntity, String displayName,
-                          StatBlock stats, List<DropEntry> drops, List<AiBehaviorConfig> aiBehaviors) {
+                          StatBlock stats, List<DropEntry> drops, List<AiBehaviorConfig> aiBehaviors,
+                          ModelConfig model) {
         this.id = id;
         this.baseEntity = baseEntity;
         this.displayName = displayName;
         this.stats = stats;
         this.drops = drops;
         this.aiBehaviors = aiBehaviors;
+        this.model = model;
     }
 
     public String getId() { return id; }
@@ -28,4 +31,5 @@ public class MobDefinition {
     public StatBlock getStats() { return stats; }
     public List<DropEntry> getDrops() { return drops; }
     public List<AiBehaviorConfig> getAiBehaviors() { return aiBehaviors; }
+    public ModelConfig getModel() { return model; }
 }
