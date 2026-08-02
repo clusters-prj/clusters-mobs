@@ -1,6 +1,6 @@
 package com.kaguya.custommobs.model;
 
-import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class CustomMobInstance {
     private final LivingEntity entity;
     // AI behaviorごとのクールダウン管理などに使う汎用ステート置き場
     private final Map<String, Long> cooldowns = new HashMap<>();
-    private ItemDisplay modelDisplay;
+    private ArmorStand modelStand;
 
     public CustomMobInstance(MobDefinition definition, LivingEntity entity) {
         this.definition = definition;
@@ -21,8 +21,8 @@ public class CustomMobInstance {
     public MobDefinition getDefinition() { return definition; }
     public LivingEntity getEntity() { return entity; }
 
-    public ItemDisplay getModelDisplay() { return modelDisplay; }
-    public void setModelDisplay(ItemDisplay modelDisplay) { this.modelDisplay = modelDisplay; }
+    public ArmorStand getModelStand() { return modelStand; }
+    public void setModelStand(ArmorStand modelStand) { this.modelStand = modelStand; }
 
     public boolean isReady(String key, long cooldownTicks, long nowTick) {
         Long last = cooldowns.get(key);

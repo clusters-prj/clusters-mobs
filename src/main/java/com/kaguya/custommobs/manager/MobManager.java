@@ -10,17 +10,14 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Display;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Transformation;
-import org.joml.AxisAngle4f;
-import org.joml.Vector3f;
 
 import java.io.File;
 import java.util.HashMap;
@@ -88,44 +85,45 @@ public class MobManager {
 
         if (def.getModel() != null) {
             entity.setInvisible(true);
-            instance.setModelDisplay(spawnModelDisplay(entity, def.getModel()));
+            instance.setModelStand(spawnModelStand(entity, def.getModel()));
         }
 
         activeMobs.put(entity.getUniqueId(), instance);
         return instance;
     }
 
-    private ItemDisplay spawnModelDisplay(LivingEntity base, ModelConfig model) {
-        ItemDisplay display = (ItemDisplay) base.getWorld().spawnEntity(base.getLocation(), EntityType.ITEM_DISPLAY);
+    /**
+     * ArmorStandの頭にカスタムアイテムを被せて見た目を表現する。
+     * ItemDisplayと違いGeyser(Bedrock)でも橋渡しされ、head/body/arm/legの姿勢APIを
+     * 使って将来的な簡易関節アニメーションにも拡張しやすい。
+     */
+    private ArmorStand spawnModelStand(LivingEntity base, ModelConfig model) {
+        ArmorStand stand = (ArmorStand) base.getWorld().spawnEntity(base.getLocation(), EntityType.ARMOR_STAND);
+        stand.setInvisible(true);
+        stand.setBasePlate(false);
+        stand.setArms(false);
+        stand.setGravity(false);
+        stand.setMarker(true);
+        stand.setPersistent(false);
+        stand.setCustomNameVisible(false);
 
         ItemStack item = new ItemStack(model.getMaterial());
         ItemMeta meta = item.getItemMeta();
         meta.setCustomModelData(model.getCustomModelData());
         item.setItemMeta(meta);
-        display.setItemStack(item);
+        stand.getEquipment().setItem(EquipmentSlot.HEAD, item);
 
-        display.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.FIXED);
-        Transformation transformation = new Transformation(
-                new Vector3f(0f, 0f, 0f),
-                new AxisAngle4f(0f, 0f, 0f, 1f),
-                new Vector3f(model.getScale(), model.getScale(), model.getScale()),
-                new AxisAngle4f(0f, 0f, 0f, 1f)
-        );
-        display.setTransformation(transformation);
-        display.setBrightness(new Display.Brightness(15, 15));
-        display.setPersistent(false);
-
-        return display;
+        return stand;
     }
 
-    private void syncModelDisplay(CustomMobInstance instance) {
-        ItemDisplay display = instance.getModelDisplay();
-        if (display == null || !display.isValid()) return;
+    private void syncModelStand(CustomMobInstance instance) {
+        ArmorStand stand = instance.getModelStand();
+        if (stand == null || !stand.isValid()) return;
 
         LivingEntity entity = instance.getEntity();
         Location loc = entity.getLocation().clone();
         loc.setY(loc.getY() + instance.getDefinition().getModel().getYOffset());
-        display.teleport(loc);
+        stand.teleport(loc);
     }
 
     private void applyStats(LivingEntity entity, MobDefinition def) {
@@ -155,15 +153,15 @@ public class MobManager {
             LivingEntity entity = instance.getEntity();
 
             if (!entity.isValid() || entity.isDead()) {
-                if (instance.getModelDisplay() != null) {
-                    instance.getModelDisplay().remove();
+                if (instance.getModelStand() != null) {
+                    instance.getModelStand().remove();
                 }
                 it.remove();
                 continue;
             }
 
-            if (instance.getModelDisplay() != null) {
-                syncModelDisplay(instance);
+            if (instance.getModelStand() != null) {
+                syncModelStand(instance);
             }
 
             for (AiBehaviorConfig behaviorConfig : instance.getDefinition().getAiBehaviors()) {
@@ -181,8 +179,8 @@ public class MobManager {
 
     public void removeInstance(UUID entityId) {
         CustomMobInstance instance = activeMobs.remove(entityId);
-        if (instance != null && instance.getModelDisplay() != null) {
-            instance.getModelDisplay().remove();
+        if (instance != null && instance.getModelStand() != null) {
+            instance.getModelStand().remove();
         }
     }
 }
