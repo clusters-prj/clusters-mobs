@@ -99,7 +99,8 @@ public class MobManager {
      */
     private ArmorStand spawnModelStand(LivingEntity base, ModelConfig model) {
         ArmorStand stand = (ArmorStand) base.getWorld().spawnEntity(base.getLocation(), EntityType.ARMOR_STAND);
-        stand.setInvisible(true);
+        // TODO: Bedrock(Geyser)は透明エンティティの装備品も一緒に隠す挙動があるか検証中のため、
+        //       一時的にinvisibleを外している。検証後に戻すかBedrock向け分岐を検討する。
         stand.setBasePlate(false);
         stand.setArms(false);
         stand.setGravity(false);
