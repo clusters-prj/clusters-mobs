@@ -104,7 +104,7 @@ public class MobManager {
         stand.setBasePlate(false);
         stand.setArms(false);
         stand.setGravity(false);
-        stand.setMarker(true);
+        // TODO: Bedrock(Geyser)でmarker armor standが描画されない疑いがあり、検証のため一時的に外している
         stand.setPersistent(false);
         stand.setCustomNameVisible(false);
 
