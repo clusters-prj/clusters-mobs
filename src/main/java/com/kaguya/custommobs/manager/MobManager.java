@@ -102,7 +102,7 @@ public class MobManager {
         // TODO: Bedrock(Geyser)は透明エンティティの装備品も一緒に隠す挙動があるか検証中のため、
         //       一時的にinvisibleを外している。検証後に戻すかBedrock向け分岐を検討する。
         stand.setBasePlate(false);
-        stand.setArms(false);
+        stand.setArms(true);
         stand.setGravity(false);
         // TODO: Bedrock(Geyser)でmarker armor standが描画されない疑いがあり、検証のため一時的に外している
         stand.setPersistent(false);
@@ -112,7 +112,8 @@ public class MobManager {
         ItemMeta meta = item.getItemMeta();
         meta.setCustomModelData(model.getCustomModelData());
         item.setItemMeta(meta);
-        stand.getEquipment().setItem(EquipmentSlot.HEAD, item);
+        // TODO: Bedrock(Geyser)がArmorStandの頭装備を橋渡ししない疑いがあり、検証のため手持ちスロットに変更中
+        stand.getEquipment().setItem(EquipmentSlot.HAND, item);
 
         return stand;
     }
