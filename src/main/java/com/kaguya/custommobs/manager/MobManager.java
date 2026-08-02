@@ -93,18 +93,17 @@ public class MobManager {
     }
 
     /**
-     * ArmorStandの頭にカスタムアイテムを被せて見た目を表現する。
-     * ItemDisplayと違いGeyser(Bedrock)でも橋渡しされ、head/body/arm/legの姿勢APIを
-     * 使って将来的な簡易関節アニメーションにも拡張しやすい。
+     * ArmorStandの手にカスタムアイテムを持たせて見た目を表現する。
+     * Geyser(Bedrock)はArmorStandの頭装備を橋渡ししないため手持ちスロットを使用している。
+     * markerは描画されないため使わない。ItemDisplayと違いGeyserでも橋渡しされ、
+     * head/body/arm/legの姿勢APIを使って将来的な簡易関節アニメーションにも拡張しやすい。
      */
     private ArmorStand spawnModelStand(LivingEntity base, ModelConfig model) {
         ArmorStand stand = (ArmorStand) base.getWorld().spawnEntity(base.getLocation(), EntityType.ARMOR_STAND);
-        // TODO: Bedrock(Geyser)は透明エンティティの装備品も一緒に隠す挙動があるか検証中のため、
-        //       一時的にinvisibleを外している。検証後に戻すかBedrock向け分岐を検討する。
+        stand.setInvisible(true);
         stand.setBasePlate(false);
         stand.setArms(true);
         stand.setGravity(false);
-        // TODO: Bedrock(Geyser)でmarker armor standが描画されない疑いがあり、検証のため一時的に外している
         stand.setPersistent(false);
         stand.setCustomNameVisible(false);
 
@@ -112,7 +111,6 @@ public class MobManager {
         ItemMeta meta = item.getItemMeta();
         meta.setCustomModelData(model.getCustomModelData());
         item.setItemMeta(meta);
-        // TODO: Bedrock(Geyser)がArmorStandの頭装備を橋渡ししない疑いがあり、検証のため手持ちスロットに変更中
         stand.getEquipment().setItem(EquipmentSlot.HAND, item);
 
         return stand;
