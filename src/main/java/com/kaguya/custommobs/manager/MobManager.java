@@ -107,6 +107,9 @@ public class MobManager {
         stand.setPersistent(false);
         stand.setCustomNameVisible(false);
 
+        // 右腕を前方水平に伸ばし、持たせたアイテムが水平に見えるようにする
+        stand.setRightArmPose(new org.bukkit.util.EulerAngle(Math.toRadians(-90), 0, 0));
+
         ItemStack item = new ItemStack(model.getMaterial());
         ItemMeta meta = item.getItemMeta();
         meta.setCustomModelData(model.getCustomModelData());
