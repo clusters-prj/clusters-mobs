@@ -93,25 +93,28 @@ public class MobManager {
     }
 
     /**
-     * ArmorStandの頭にカスタムアイテムを装備させて見た目を表現する。
-     * 手持ちスロットはBedrock側が独自の手持ち角度で描画してしまい向きを制御できない。
-     * Java側の display 変換もArmorStandの腕ポーズもGeyserは橋渡ししないため、
-     * 体の向きに沿って直立描画される頭スロットを使う。
-     * markerは描画されないため使わない。
+     * ArmorStandの手にカスタムアイテムを持たせて見た目を表現する。
+     * Geyser(Bedrock)はArmorStandの頭装備を橋渡ししないため手持ちスロットを使用している。
+     * markerは描画されないため使わない。ItemDisplayと違いGeyserでも橋渡しされ、
+     * head/body/arm/legの姿勢APIを使って将来的な簡易関節アニメーションにも拡張しやすい。
      */
     private ArmorStand spawnModelStand(LivingEntity base, ModelConfig model) {
         ArmorStand stand = (ArmorStand) base.getWorld().spawnEntity(base.getLocation(), EntityType.ARMOR_STAND);
         stand.setInvisible(true);
         stand.setBasePlate(false);
+        stand.setArms(true);
         stand.setGravity(false);
         stand.setPersistent(false);
         stand.setCustomNameVisible(false);
+
+        // 右腕を前方水平に伸ばし、持たせたアイテムが水平に見えるようにする
+        stand.setRightArmPose(new org.bukkit.util.EulerAngle(Math.toRadians(-90), 0, 0));
 
         ItemStack item = new ItemStack(model.getMaterial());
         ItemMeta meta = item.getItemMeta();
         meta.setCustomModelData(model.getCustomModelData());
         item.setItemMeta(meta);
-        stand.getEquipment().setItem(EquipmentSlot.HEAD, item);
+        stand.getEquipment().setItem(EquipmentSlot.HAND, item);
 
         return stand;
     }
