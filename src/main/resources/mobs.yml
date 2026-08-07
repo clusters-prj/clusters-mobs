@@ -21,7 +21,7 @@ mobs:
         range: 2.0
         cooldown-ticks: 20
     model:
-      item: IRON_INGOT
+      item: EMERALD_BLOCK
       custom-model-data: 1001
       scale: 1.5
       y-offset: 1.0
