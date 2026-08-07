@@ -94,9 +94,12 @@ public class MobManager {
 
     /**
      * ArmorStandの手にカスタムアイテムを持たせて見た目を表現する。
-     * Geyser(Bedrock)はArmorStandの頭装備を橋渡ししないため手持ちスロットを使用している。
-     * markerは描画されないため使わない。ItemDisplayと違いGeyserでも橋渡しされ、
-     * head/body/arm/legの姿勢APIを使って将来的な簡易関節アニメーションにも拡張しやすい。
+     * 手持ちスロット以外はGeyser(Bedrock)に橋渡しされない。ItemDisplayも頭装備も
+     * 統合版では一切描画されないことを実機で確認済み。markerも描画されないため使わない。
+     * <p>
+     * 腕ポーズもJava側モデルの display 変換も統合版には反映されないので、統合版での
+     * 向き・サイズは bedrock-pack/ のアタッチャブルが決める。Java側の
+     * display.thirdperson_righthand と値を揃えること。詳細は bedrock-pack/README.md 参照。
      */
     private ArmorStand spawnModelStand(LivingEntity base, ModelConfig model) {
         ArmorStand stand = (ArmorStand) base.getWorld().spawnEntity(base.getLocation(), EntityType.ARMOR_STAND);

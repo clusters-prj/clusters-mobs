@@ -1,0 +1,15 @@
+{
+  "format_version": "1",
+  "items": {
+    "minecraft:iron_ingot": [
+      {
+        "name": "custommobs_test_cube",
+        "custom_model_data": 1001,
+        "icon": "custommobs_test_cube",
+        "display_name": "Test Cube",
+        "allow_offhand": true,
+        "display_handheld": true
+      }
+    ]
+  }
+}

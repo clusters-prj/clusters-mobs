@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "CustomMobs Test Pack",
+    "description": "CustomMobs test cube (attachable + geometry)",
+    "uuid": "bff4190a-2493-4c40-b7ce-7ebf7b9933e9",
+    "version": [
+      1,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      20,
+      0
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "44dedbaa-8ee2-4d63-9dc1-60a0183111b7",
+      "version": [
+        1,
+        1,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "geyser_custom:custommobs_test_cube",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/entity/custommobs_test_cube",
+        "enchanted": "textures/misc/enchanted_actor_glint"
+      },
+      "geometry": {
+        "default": "geometry.custommobs_test_cube"
+      },
+      "scripts": {
+        "animate": [
+          { "thirdperson": "!context.is_first_person" },
+          { "firstperson": "context.is_first_person" }
+        ]
+      },
+      "animations": {
+        "thirdperson": "animation.custommobs_test_cube.thirdperson",
+        "firstperson": "animation.custommobs_test_cube.firstperson"
+      },
+      "render_controllers": [ "controller.render.item_default" ]
+    }
+  }
+}
