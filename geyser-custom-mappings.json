@@ -9,6 +9,14 @@
         "display_name": "Test Cube",
         "allow_offhand": true,
         "display_handheld": true
+      },
+      {
+        "name": "miniyachiyo",
+        "custom_model_data": 1002,
+        "icon": "miniyachiyo",
+        "display_name": "Mini Yachiyo",
+        "allow_offhand": true,
+        "display_handheld": true
       }
     ]
   }

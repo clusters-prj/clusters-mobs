@@ -4,6 +4,9 @@
   "texture_data": {
     "custommobs_test_cube": {
       "textures": "textures/items/test_cube"
+    },
+    "miniyachiyo": {
+      "textures": "textures/items/miniyachiyo"
     }
   }
 }

@@ -1,0 +1,25 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.miniyachiyo.thirdperson": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "rotation": [90, 0, 0],
+          "position": [0, 8, 0],
+          "scale": 1
+        }
+      }
+    },
+    "animation.miniyachiyo.firstperson": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "rotation": [90, 0, 0],
+          "position": [0, 8, 0],
+          "scale": 1
+        }
+      }
+    }
+  }
+}
